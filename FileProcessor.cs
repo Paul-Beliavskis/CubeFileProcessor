@@ -75,7 +75,7 @@ namespace CubeFileProsessor
         public static bool IsRegexMatched(string lineToMatch)
         {
             var regexVar = Environment.GetEnvironmentVariable("regexToMatch");
-            var regex = string.IsNullOrWhiteSpace(regexVar) ? new Regex("[A-Z]{2}") : new Regex(regexVar);
+            var regex = string.IsNullOrWhiteSpace(regexVar) ? new Regex("[A-Z]*?") : new Regex(regexVar);
 
             return regex.Match(lineToMatch).Success;
         }
