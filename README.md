@@ -18,7 +18,9 @@ for each text line of the file and if any matched then the file needs to be move
 Alothought I have created two functions within the same function app in a production setting I would have two separate apps and move the 
 storage account connection logic into a Nuget package hosted on Azure DevOps Artifacts and then use this package in each of the function apps.
 The reason for this is that the timer trigger is not supported on a consumption based plan and so it would be much more cost efficient to have the timer
-on a low teir plan and have the consumption plan for the file processing which will be a weekly task.
-</br>
+on a low teir plan and have the consumption plan for the file processing which will be a weekly task. </br></br>
+
 We couldn't do this all in one function because of the possible Azure function timeouts which is why Microsoft recommend creating functions as short lived as possible.
-Hence an instance of a function only processes one file at a time keeping execution time to a minimum.
+Hence an instance of a function only processes one file at a time keeping execution time to a minimum.</br></br>
+
+If a file with the same name already exists in the output directory then this is logged as an error and the file is deleted from the source directory.
