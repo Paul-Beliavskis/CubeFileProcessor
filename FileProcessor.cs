@@ -20,7 +20,7 @@ namespace CubeFileProsessor
             {
                 var connectionString = Environment.GetEnvironmentVariable(ConfigConstants.saConnectStr);
                 var shareName = Environment.GetEnvironmentVariable(ConfigConstants.saCubeShareName);
-                ShareClient shareClient = new (connectionString, shareName);
+                ShareClient shareClient = new(connectionString, shareName);
 
                 var outputDirectoryClient = shareClient.GetDirectoryClient("output");
                 await outputDirectoryClient.CreateIfNotExistsAsync();
@@ -30,8 +30,15 @@ namespace CubeFileProsessor
                 var sourceDirectoryClient = shareClient.GetDirectoryClient(sourceDirName);
                 var sourceFileClient = sourceDirectoryClient.GetFileClient(myQueueItem.AsString);
 
+                if (await outputFileClient.ExistsAsync())
+                {
+                    log.LogError("File alreay exists in the output directory");
+                    await sourceFileClient.DeleteAsync();
+                    return;
+                }
+
                 using var stream = await sourceFileClient.OpenReadAsync().ConfigureAwait(false);
-                using StreamReader reader = new (stream);
+                using StreamReader reader = new(stream);
 
                 var isFileMoved = false;
 
