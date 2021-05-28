@@ -23,4 +23,7 @@ on a low teir plan and have the consumption plan for the file processing which w
 We couldn't do this all in one function because of the possible Azure function timeouts which is why Microsoft recommend creating functions as short lived as possible.
 Hence an instance of a function only processes one file at a time keeping execution time to a minimum.</br></br>
 
-If a file with the same name already exists in the output directory then this is logged as an error and the file is deleted from the source directory.
+If a file with the same name already exists in the output directory then this is logged as an error and the file is deleted from the source directory.</br></br>
+
+We could also add defaults to the environment variables so if some are missed, the app would still run but this is a decision that should be made with the team as a whole
+because it could be that we don't want the app to run if values are not set explicitly depending on the usecase.
